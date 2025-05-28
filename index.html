@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>حاسبة مواد البناء</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f5f5f5;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        .container {
+            max-width: 800px;
+            margin-top: 2rem;
+        }
+        .result-item {
+            padding: 0.5rem;
+            margin: 0.25rem 0;
+            background-color: white;
+            border-radius: 5px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        .nav-link {
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+            <a class="navbar-brand">حاسبة مواد البناء</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" onclick="showProductionRates()">معدلات الإنتاج</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" onclick="showMaterialStorage()">معلومات التشوينات</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="card mb-4">
+            <div class="card-body">
+                <div class="mb-3">
+                    <label class="form-label">إختر البند</label>
+                    <select class="form-select" id="mainCategory" onchange="updateSubCategory()">
+                        <option value="المباني">المباني</option>
+                        <option value="البياض">البياض</option>
+                        <option value="البورسلين">البورسلين</option>
+                        <option value="العزل">العزل</option>
+                        <option value="النقاشة">النقاشة</option>
+                    </select>
+                </div>
+
+                <div class="mb-3" id="subCategoryContainer">
+                    <!-- Sub-categories will be dynamically added here -->
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label" id="areaLabel">أدخل المساحة (متر مربع)</label>
+                    <input type="number" class="form-control" id="area" onchange="calculate()">
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                النتائج
+            </div>
+            <div class="card-body" id="results">
+                <!-- Results will be dynamically added here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Modals -->
+    <div class="modal fade" id="productionRatesModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">معدلات الإنتاج اليومية</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body" id="productionRatesContent">
+                    <!-- Production rates will be dynamically added here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="materialStorageModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">معلومات التشوينات</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="list-group">
+                        <div class="list-group-item">طن الأسمنت = 20 شيكارة (50 كج)</div>
+                        <div class="list-group-item">أسمنت أبيض = 40 كج</div>
+                        <div class="list-group-item">مادة لاصقة = 50 كج</div>
+                        <div class="list-group-item">متر الرمل = 24 شيكارة</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html> 
