@@ -36,7 +36,7 @@ const PRODUCTION_RATES = {
 // Sub-category options for each main category
 const SUB_CATEGORIES = {
     'المباني': ['طوب طفلي 20×9×5', 'طوب طفلي 24×11×6'],
-    'البورسلين': ['بورسلين أرضيات', 'بورسلين حوائط', 'تأسيس تحت HDF', 'وزر'],
+    'البورسلين': ['بورسلين أرضيات 120×60 سم', 'بورسلين حوائط 120×60 سم', 'تأسيس تحت HDF', 'وزر'],
     'العزل': ['سيكا 107', 'أنسومات', 'عزل حراري'],
     'النقاشة': ['تأسيس حوائط', 'تأسيس أسقف']
 };
@@ -190,7 +190,7 @@ function calculate() {
         addResult(`شبك فايبر: ${fiber.toFixed(2)} لفة`);
 
     } else if (category === 'البورسلين') {
-        if (subType === 'بورسلين أرضيات') {
+        if (subType === 'بورسلين أرضيات 120×60 سم') {
             const cement = area * 0.4;
             const cement_tons = cement / CONVERSIONS.cement_bag_to_ton;
             const adhesive = area / 20;
@@ -210,7 +210,7 @@ function calculate() {
             addResult(`كليبسات: ${clips.toFixed(2)} كيس`);
             addResult(`أسمنت أبيض: ${white_cement.toFixed(2)} شيكارة`);
 
-        } else if (subType === 'بورسلين حوائط') {
+        } else if (subType === 'بورسلين حوائط 120×60 سم') {
             const adhesive = area / 6;
             const clips = area / 13;
             const white_cement = area / 100;
