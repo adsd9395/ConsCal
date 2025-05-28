@@ -85,6 +85,10 @@ function updateSubCategory() {
     const mainCategory = document.getElementById('mainCategory').value;
     const container = document.getElementById('subCategoryContainer');
     container.innerHTML = '';
+    
+    // Clear area input field
+    document.getElementById('area').value = '';
+    document.getElementById('results').innerHTML = '';
 
     if (SUB_CATEGORIES[mainCategory]) {
         const label = document.createElement('label');
@@ -95,8 +99,10 @@ function updateSubCategory() {
         select.className = 'form-select';
         select.id = 'subType';
         select.onchange = function() {
+            // Clear area input field when sub-category changes
+            document.getElementById('area').value = '';
+            document.getElementById('results').innerHTML = '';
             updateAreaLabel();
-            calculate();
         };
 
         SUB_CATEGORIES[mainCategory].forEach(option => {
@@ -111,7 +117,6 @@ function updateSubCategory() {
     }
 
     updateAreaLabel();
-    calculate();
 }
 
 function updateAreaLabel() {
