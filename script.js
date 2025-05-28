@@ -196,7 +196,7 @@ function calculate() {
             const adhesive = area / 20;
             const sand_mortar = area * 0.0625;
             const sand_mortar_bags = sand_mortar * CONVERSIONS.sand_bags_per_meter;
-            const sand_fill = area * 0.0145;
+            const sand_fill = area * 0.15;
             const sand_fill_bags = sand_fill * CONVERSIONS.sand_bags_per_meter;
             const water_cart = area * 0.04;
             const clips = area / 13;
@@ -228,7 +228,7 @@ function calculate() {
             const cement_tons = cement / CONVERSIONS.cement_bag_to_ton;
             const sand_mortar = area * 0.056;
             const sand_mortar_bags = sand_mortar * CONVERSIONS.sand_bags_per_meter;
-            const sand_fill = area * 0.0145;
+            const sand_fill = area * 0.15;
             const sand_fill_bags = sand_fill * CONVERSIONS.sand_bags_per_meter;
             const water_cart = area * 0.04;
             const white_cement = area / 100;
