@@ -170,13 +170,27 @@ function addResult(text) {
 }
 
 function calculate() {
+    const resultsDiv = document.getElementById('results');
+    const mainCategory = document.getElementById('mainCategory').value;
     const area = parseFloat(document.getElementById('area').value);
-    const results = document.getElementById('results');
-    results.innerHTML = '';
+    
+    if (isNaN(area)) {
+        resultsDiv.innerHTML = '<div class="result-item">الرجاء إدخال قيمة صحيحة للمساحة</div>';
+        return;
+    }
 
-    if (!area || area <= 0) return;
+    let results = calculateResults(mainCategory, area);
+    resultsDiv.innerHTML = results;
+    
+    // Add success animation
+    resultsDiv.classList.add('calculation-complete');
+    setTimeout(() => {
+        resultsDiv.classList.remove('calculation-complete');
+    }, 500);
+}
 
-    const category = document.getElementById('mainCategory').value;
+function calculateResults(category, area) {
+    let results = '';
     const subTypeElement = document.getElementById('subType');
     const subType = subTypeElement ? subTypeElement.value : null;
 
@@ -194,26 +208,25 @@ function calculate() {
                 water_cart = area * 0.03;
                 break;
         }
-        addResult(`عربية رتش: ${water_cart.toFixed(3)}`);
+        results += `<div class="result-item">عربية رتش: ${water_cart.toFixed(3)}</div>`;
 
     } else if (category === 'تكييفات') {
         const water_cart = area * 0.02;
-        addResult(`عربية رتش: ${water_cart.toFixed(3)}`);
+        results += `<div class="result-item">عربية رتش: ${water_cart.toFixed(3)}</div>`;
 
     } else if (category === 'جبس') {
         const water_cart = area * 0.02;
-        addResult(`عربية رتش: ${water_cart.toFixed(3)}`);
+        results += `<div class="result-item">عربية رتش: ${water_cart.toFixed(3)}</div>`;
 
     } else if (category === 'رخام') {
         if (subType === 'رخام (تجاليد)') {
             const adhesive = area * 0.07;
             const water_cart = area * 0.04;
 
-            addResult(`مادة لاصقة: ${adhesive.toFixed(2)} شيكارة`);
-            addResult(`عربية رتش: ${water_cart.toFixed(3)}`);
+            results += `<div class="result-item">مادة لاصقة: ${adhesive.toFixed(2)} شيكارة</div>`;
+            results += `<div class="result-item">عربية رتش: ${water_cart.toFixed(3)}</div>`;
 
         } else {
-            // Common calculations for both floor types
             const cement = area * 0.33;
             const cement_tons = cement / CONVERSIONS.cement_bag_to_ton;
             const sand_mortar = area * 0.06;
@@ -223,11 +236,11 @@ function calculate() {
             const adhesive = area * 0.07;
             const water_cart = area * 0.04;
 
-            addResult(`الأسمنت: ${cement.toFixed(2)} شيكارة (${cement_tons.toFixed(2)} طن)`);
-            addResult(`رمل مونة: ${sand_mortar.toFixed(3)} متر مكعب (${Math.round(sand_mortar_bags)} شيكارة)`);
-            addResult(`رمل ردم: ${sand_fill.toFixed(3)} متر مكعب (${Math.round(sand_fill_bags)} شيكارة)`);
-            addResult(`مادة لاصقة: ${adhesive.toFixed(2)} شيكارة`);
-            addResult(`عربية رتش: ${water_cart.toFixed(3)}`);
+            results += `<div class="result-item">الأسمنت: ${cement.toFixed(2)} شيكارة (${cement_tons.toFixed(2)} طن)</div>`;
+            results += `<div class="result-item">رمل مونة: ${sand_mortar.toFixed(3)} متر مكعب (${Math.round(sand_mortar_bags)} شيكارة)</div>`;
+            results += `<div class="result-item">رمل ردم: ${sand_fill.toFixed(3)} متر مكعب (${Math.round(sand_fill_bags)} شيكارة)</div>`;
+            results += `<div class="result-item">مادة لاصقة: ${adhesive.toFixed(2)} شيكارة</div>`;
+            results += `<div class="result-item">عربية رتش: ${water_cart.toFixed(3)}</div>`;
         }
 
     } else if (category === 'المباني') {
@@ -253,10 +266,10 @@ function calculate() {
                 break;
         }
 
-        addResult(`الأسمنت: ${cement.toFixed(2)} شيكارة (${cement_tons.toFixed(2)} طن)`);
-        addResult(`الرمل: ${sand.toFixed(3)} متر مكعب (${Math.round(sand_bags)} شيكارة)`);
-        addResult(`عربية رتش: ${water_cart.toFixed(3)}`);
-        addResult(`الطوب: ${Math.round(bricks)} طوبة`);
+        results += `<div class="result-item">الأسمنت: ${cement.toFixed(2)} شيكارة (${cement_tons.toFixed(2)} طن)</div>`;
+        results += `<div class="result-item">الرمل: ${sand.toFixed(3)} متر مكعب (${Math.round(sand_bags)} شيكارة)</div>`;
+        results += `<div class="result-item">عربية رتش: ${water_cart.toFixed(3)}</div>`;
+        results += `<div class="result-item">الطوب: ${Math.round(bricks)} طوبة</div>`;
 
     } else if (category === 'البياض') {
         const cement = area * 0.33;
@@ -267,11 +280,11 @@ function calculate() {
         const water_cart = area * 0.003;
         const fiber = (area / 40) * 0.5;
 
-        addResult(`الأسمنت: ${cement.toFixed(2)} شيكارة (${cement_tons.toFixed(2)} طن)`);
-        addResult(`الرمل: ${sand.toFixed(3)} متر مكعب (${Math.round(sand_bags)} شيكارة)`);
-        addResult(`فريسبيكو: ${fresco.toFixed(1)} عود`);
-        addResult(`عربية رتش: ${water_cart.toFixed(3)}`);
-        addResult(`شبك فايبر: ${fiber.toFixed(2)} لفة`);
+        results += `<div class="result-item">الأسمنت: ${cement.toFixed(2)} شيكارة (${cement_tons.toFixed(2)} طن)</div>`;
+        results += `<div class="result-item">الرمل: ${sand.toFixed(3)} متر مكعب (${Math.round(sand_bags)} شيكارة)</div>`;
+        results += `<div class="result-item">فريسبيكو: ${fresco.toFixed(1)} عود</div>`;
+        results += `<div class="result-item">عربية رتش: ${water_cart.toFixed(3)}</div>`;
+        results += `<div class="result-item">شبك فايبر: ${fiber.toFixed(2)} لفة</div>`;
 
     } else if (category === 'البورسلين') {
         if (subType === 'بورسلين أرضيات 120×60 سم') {
@@ -286,26 +299,26 @@ function calculate() {
             const clips = area / 13;
             const white_cement = area / 100;
 
-            addResult(`الأسمنت: ${cement.toFixed(2)} شيكارة (${cement_tons.toFixed(2)} طن)`);
-            addResult(`مادة لاصقة: ${adhesive.toFixed(2)} شيكارة`);
-            addResult(`رمل مونة: ${sand_mortar.toFixed(3)} متر مكعب (${Math.round(sand_mortar_bags)} شيكارة)`);
-            addResult(`رمل ردم: ${sand_fill.toFixed(3)} متر مكعب (${Math.round(sand_fill_bags)} شيكارة)`);
-            addResult(`عربية رتش: ${water_cart.toFixed(3)}`);
-            addResult(`كليبسات: ${clips.toFixed(2)} كيس`);
-            addResult(`أسمنت أبيض: ${white_cement.toFixed(2)} شيكارة`);
+            results += `<div class="result-item">الأسمنت: ${cement.toFixed(2)} شيكارة (${cement_tons.toFixed(2)} طن)</div>`;
+            results += `<div class="result-item">مادة لاصقة: ${adhesive.toFixed(2)} شيكارة</div>`;
+            results += `<div class="result-item">رمل مونة: ${sand_mortar.toFixed(3)} متر مكعب (${Math.round(sand_mortar_bags)} شيكارة)</div>`;
+            results += `<div class="result-item">رمل ردم: ${sand_fill.toFixed(3)} متر مكعب (${Math.round(sand_fill_bags)} شيكارة)</div>`;
+            results += `<div class="result-item">عربية رتش: ${water_cart.toFixed(3)}</div>`;
+            results += `<div class="result-item">كليبسات: ${clips.toFixed(2)} كيس</div>`;
+            results += `<div class="result-item">أسمنت أبيض: ${white_cement.toFixed(2)} شيكارة</div>`;
 
         } else if (subType === 'بورسلين حوائط 120×60 سم') {
             const adhesive = area / 6;
             const clips = area / 13;
             const white_cement = area / 100;
 
-            addResult(`مادة لاصقة: ${adhesive.toFixed(2)} شيكارة`);
-            addResult(`كليبسات: ${clips.toFixed(2)} كيس`);
-            addResult(`أسمنت أبيض: ${white_cement.toFixed(2)} شيكارة`);
+            results += `<div class="result-item">مادة لاصقة: ${adhesive.toFixed(2)} شيكارة</div>`;
+            results += `<div class="result-item">كليبسات: ${clips.toFixed(2)} كيس</div>`;
+            results += `<div class="result-item">أسمنت أبيض: ${white_cement.toFixed(2)} شيكارة</div>`;
 
         } else if (subType === 'وزر') {
             const adhesive = area / 60;
-            addResult(`مادة لاصقة: ${adhesive.toFixed(2)} شيكارة`);
+            results += `<div class="result-item">مادة لاصقة: ${adhesive.toFixed(2)} شيكارة</div>`;
 
         } else if (subType === 'تأسيس تحت HDF') {
             const cement = area * 0.25;
@@ -317,11 +330,11 @@ function calculate() {
             const water_cart = area * 0.04;
             const white_cement = area / 100;
 
-            addResult(`الأسمنت: ${cement.toFixed(2)} شيكارة (${cement_tons.toFixed(2)} طن)`);
-            addResult(`رمل مونة: ${sand_mortar.toFixed(3)} متر مكعب (${Math.round(sand_mortar_bags)} شيكارة)`);
-            addResult(`رمل ردم: ${sand_fill.toFixed(3)} متر مكعب (${Math.round(sand_fill_bags)} شيكارة)`);
-            addResult(`عربية رتش: ${water_cart.toFixed(3)}`);
-            addResult(`أسمنت أبيض: ${white_cement.toFixed(2)} شيكارة`);
+            results += `<div class="result-item">الأسمنت: ${cement.toFixed(2)} شيكارة (${cement_tons.toFixed(2)} طن)</div>`;
+            results += `<div class="result-item">رمل مونة: ${sand_mortar.toFixed(3)} متر مكعب (${Math.round(sand_mortar_bags)} شيكارة)</div>`;
+            results += `<div class="result-item">رمل ردم: ${sand_fill.toFixed(3)} متر مكعب (${Math.round(sand_fill_bags)} شيكارة)</div>`;
+            results += `<div class="result-item">عربية رتش: ${water_cart.toFixed(3)}</div>`;
+            results += `<div class="result-item">أسمنت أبيض: ${white_cement.toFixed(2)} شيكارة</div>`;
         }
 
     } else if (category === 'العزل') {
@@ -333,10 +346,10 @@ function calculate() {
             const membrane = area / 8;
             const primer = area / 16;
 
-            addResult(`الأسمنت: ${cement.toFixed(2)} شيكارة (${cement_tons.toFixed(2)} طن)`);
-            addResult(`الرمل: ${sand.toFixed(3)} متر مكعب (${Math.round(sand_bags)} شيكارة)`);
-            addResult(`ميمبرين: ${membrane.toFixed(2)} لفة`);
-            addResult(`برايمر: ${primer.toFixed(2)} بستلة`);
+            results += `<div class="result-item">الأسمنت: ${cement.toFixed(2)} شيكارة (${cement_tons.toFixed(2)} طن)</div>`;
+            results += `<div class="result-item">الرمل: ${sand.toFixed(3)} متر مكعب (${Math.round(sand_bags)} شيكارة)</div>`;
+            results += `<div class="result-item">ميمبرين: ${membrane.toFixed(2)} لفة</div>`;
+            results += `<div class="result-item">برايمر: ${primer.toFixed(2)} بستلة</div>`;
 
         } else if (subType === 'سيكا 107') {
             const cement = area * 0.33;
@@ -346,14 +359,14 @@ function calculate() {
             const sika = area / 10;
             const adibond = area / 24;
 
-            addResult(`الأسمنت: ${cement.toFixed(2)} شيكارة (${cement_tons.toFixed(2)} طن)`);
-            addResult(`الرمل: ${sand.toFixed(3)} متر مكعب (${Math.round(sand_bags)} شيكارة)`);
-            addResult(`سيكا: ${sika.toFixed(2)} مجموعة`);
-            addResult(`أديبوند: ${adibond.toFixed(2)} جركن`);
+            results += `<div class="result-item">الأسمنت: ${cement.toFixed(2)} شيكارة (${cement_tons.toFixed(2)} طن)</div>`;
+            results += `<div class="result-item">الرمل: ${sand.toFixed(3)} متر مكعب (${Math.round(sand_bags)} شيكارة)</div>`;
+            results += `<div class="result-item">سيكا: ${sika.toFixed(2)} مجموعة</div>`;
+            results += `<div class="result-item">أديبوند: ${adibond.toFixed(2)} جركن</div>`;
 
         } else if (subType === 'عزل حراري') {
             const foam = area / 3.5;
-            addResult(`فوم: ${foam.toFixed(2)} كيلو`);
+            results += `<div class="result-item">فوم: ${foam.toFixed(2)} كيلو</div>`;
         }
 
     } else if (category === 'النقاشة') {
@@ -368,11 +381,11 @@ function calculate() {
             const plastic_buckets = plastic / CONVERSIONS.plastic_bucket;
             const water_cart = area * 0.002;
 
-            addResult(`سيلر: ${sealer.toFixed(2)} لتر (${sealer_buckets.toFixed(2)} بستلة)`);
-            addResult(`معجون أكريلك: ${acrylic.toFixed(2)} كجم (${acrylic_buckets.toFixed(2)} بستلة)`);
-            addResult(`دايتون: ${dyton.toFixed(2)} كجم (${dyton_buckets.toFixed(2)} بستلة)`);
-            addResult(`بلاستيك: ${plastic.toFixed(2)} لتر (${plastic_buckets.toFixed(2)} بستلة)`);
-            addResult(`عربية رتش: ${water_cart.toFixed(3)}`);
+            results += `<div class="result-item">سيلر: ${sealer.toFixed(2)} لتر (${sealer_buckets.toFixed(2)} بستلة)</div>`;
+            results += `<div class="result-item">معجون أكريلك: ${acrylic.toFixed(2)} كجم (${acrylic_buckets.toFixed(2)} بستلة)</div>`;
+            results += `<div class="result-item">دايتون: ${dyton.toFixed(2)} كجم (${dyton_buckets.toFixed(2)} بستلة)</div>`;
+            results += `<div class="result-item">بلاستيك: ${plastic.toFixed(2)} لتر (${plastic_buckets.toFixed(2)} بستلة)</div>`;
+            results += `<div class="result-item">عربية رتش: ${water_cart.toFixed(3)}</div>`;
 
         } else if (subType === 'تأسيس أسقف') {
             const thermal_sealer = area * 0.07;
@@ -383,21 +396,43 @@ function calculate() {
             const plastic_buckets = plastic / CONVERSIONS.plastic_bucket;
             const water_cart = area * 0.002;
 
-            addResult(`سيلر حراري: ${thermal_sealer.toFixed(2)} لتر (${thermal_sealer_buckets.toFixed(2)} بستلة)`);
-            addResult(`دايتون: ${dyton.toFixed(2)} كجم (${dyton_buckets.toFixed(2)} بستلة)`);
-            addResult(`بلاستيك: ${plastic.toFixed(2)} لتر (${plastic_buckets.toFixed(2)} بستلة)`);
-            addResult(`عربية رتش: ${water_cart.toFixed(3)}`);
+            results += `<div class="result-item">سيلر حراري: ${thermal_sealer.toFixed(2)} لتر (${thermal_sealer_buckets.toFixed(2)} بستلة)</div>`;
+            results += `<div class="result-item">دايتون: ${dyton.toFixed(2)} كجم (${dyton_buckets.toFixed(2)} بستلة)</div>`;
+            results += `<div class="result-item">بلاستيك: ${plastic.toFixed(2)} لتر (${plastic_buckets.toFixed(2)} بستلة)</div>`;
+            results += `<div class="result-item">عربية رتش: ${water_cart.toFixed(3)}</div>`;
 
         } else if (subType === 'تشطيب نقاشة') {
             const paint = area * 0.15;
             const paint_buckets = paint / CONVERSIONS.paint_finish_bucket;
             const water_cart = area * 0.002;
 
-            addResult(`دهان: ${paint.toFixed(2)} لتر (${paint_buckets.toFixed(2)} بستلة)`);
-            addResult(`عربية رتش: ${water_cart.toFixed(3)}`);
+            results += `<div class="result-item">دهان: ${paint.toFixed(2)} لتر (${paint_buckets.toFixed(2)} بستلة)</div>`;
+            results += `<div class="result-item">عربية رتش: ${water_cart.toFixed(3)}</div>`;
         }
     }
+    
+    return results;
 }
+
+// Add smooth scrolling for navigation
+document.addEventListener('DOMContentLoaded', function() {
+    const navLinks = document.querySelectorAll('.nav-link');
+    
+    navLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+            const targetId = this.getAttribute('onclick')?.toString().match(/show(\w+)\(\)/)?.[1];
+            if (targetId) {
+                const targetModal = document.getElementById(`${targetId.toLowerCase()}Modal`);
+                if (targetModal) {
+                    targetModal.classList.add('fade-in');
+                    setTimeout(() => {
+                        targetModal.classList.remove('fade-in');
+                    }, 300);
+                }
+            }
+        });
+    });
+});
 
 // Initialize the page
 document.addEventListener('DOMContentLoaded', () => {
