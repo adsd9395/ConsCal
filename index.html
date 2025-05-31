@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>حاسبة مواد البناء</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <style>
         :root {
             --primary-dark: rgb(51, 51, 51);
@@ -303,29 +304,98 @@
         .navbar-toggler-icon {
             filter: brightness(0) invert(1);
         }
+
+        .text-gold {
+            color: var(--primary-gold);
+        }
+        
+        .menu-card {
+            background: linear-gradient(160deg, var(--card-dark) 0%, var(--primary-darker) 100%);
+            border-radius: 12px;
+            padding: 2rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+        
+        .menu-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary-gold);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+        
+        .menu-card i {
+            font-size: 2.5rem;
+            color: var(--primary-gold);
+        }
+        
+        .menu-card h3 {
+            color: var(--primary-gold);
+            margin: 1rem 0;
+        }
+        
+        .menu-card p {
+            color: var(--text-light);
+            margin: 0;
+            opacity: 0.8;
+        }
+        
+        .btn-outline-gold {
+            color: var(--primary-gold);
+            border-color: var(--primary-gold);
+            background: transparent;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-outline-gold:hover {
+            color: var(--primary-darker);
+            background: var(--primary-gold);
+        }
     </style>
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-light">
         <div class="container">
-            <a class="navbar-brand">شَوْن</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav me-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" onclick="showProductionRates()">معدلات الإنتاج</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" onclick="showMaterialStorage()">معلومات التشوينات</a>
-                    </li>
-                </ul>
-            </div>
+            <a class="navbar-brand mx-auto">شَوْن</a>
         </div>
     </nav>
 
-    <div class="main-container">
+    <div class="container mt-5" id="homepage">
+        <div class="text-center mb-5">
+            <h1 class="display-4 text-gold mb-4">شَوْن</h1>
+            <p class="lead mb-5">ما أخترعناش العجله .. خليناها أسرع</p>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-md-4 mb-3">
+                <div class="menu-card" onclick="showCalculator()">
+                    <i class="fas fa-calculator mb-3"></i>
+                    <h3>حساب الكميات</h3>
+                    <p>حساب كميات مواد البناء المطلوبة</p>
+                </div>
+            </div>
+            <div class="col-md-4 mb-3">
+                <div class="menu-card" onclick="showMaterialStorage()">
+                    <i class="fas fa-warehouse mb-3"></i>
+                    <h3>معلومات التشوينات</h3>
+                    <p>معلومات عن المواد والكميات</p>
+                </div>
+            </div>
+            <div class="col-md-4 mb-3">
+                <div class="menu-card" onclick="showExecutionTime()">
+                    <i class="fas fa-clock mb-3"></i>
+                    <h3>حساب مدة التنفيذ</h3>
+                    <p>حساب الوقت اللازم لتنفيذ الأعمال</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="main-container d-none" id="calculatorPage">
+        <button class="btn btn-outline-gold mb-4" onclick="showHomepage()">
+            <i class="fas fa-arrow-right ml-2"></i>
+            عودة للصفحة الرئيسية
+        </button>
         <div class="card mb-4">
             <div class="card-header">
                 حساب الكميات
@@ -352,7 +422,7 @@
 
                 <div class="mb-4">
                     <label class="form-label" id="areaLabel">أدخل المساحة (متر مربع)</label>
-                    <input type="number" class="form-control" id="area" onchange="calculate()">
+                    <input type="number" class="form-control" id="area" onkeydown="if(event.key === 'Enter') { calculate(); return false; }">
                 </div>
             </div>
         </div>
@@ -367,21 +437,57 @@
         </div>
     </div>
 
-    <!-- Modals -->
-    <div class="modal fade" id="productionRatesModal" tabindex="-1">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">معدلات الإنتاج اليومية</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    <div class="main-container d-none" id="executionTimePage">
+        <button class="btn btn-outline-gold mb-4" onclick="showHomepage()">
+            <i class="fas fa-arrow-right ml-2"></i>
+            عودة للصفحة الرئيسية
+        </button>
+        <div class="card mb-4">
+            <div class="card-header">
+                حساب مدة التنفيذ
+            </div>
+            <div class="card-body">
+                <div class="mb-4">
+                    <label class="form-label">إختر البند</label>
+                    <select class="form-select" id="executionCategory" onchange="updateWorkTypes()">
+                        <option value="الهدم">الهدم</option>
+                        <option value="المباني">المباني</option>
+                        <option value="البياض">البياض</option>
+                        <option value="البورسلين">البورسلين</option>
+                        <option value="رخام">رخام</option>
+                        <option value="جبس">جبس</option>
+                        <option value="العزل">العزل</option>
+                        <option value="النقاشة">النقاشة</option>
+                    </select>
                 </div>
-                <div class="modal-body" id="productionRatesContent">
-                    <!-- Production rates will be dynamically added here -->
+
+                <div class="mb-4" id="executionSubCategoryContainer">
+                    <!-- Sub-categories will be dynamically added here -->
                 </div>
+
+                <div class="mb-4">
+                    <label class="form-label" id="executionAreaLabel">أدخل المساحة (متر مربع)</label>
+                    <input type="number" class="form-control" id="executionArea" onkeydown="if(event.key === 'Enter') { calculateExecutionTime(); return false; }">
+                </div>
+
+                <div class="mb-4">
+                    <label class="form-label">عدد الفرق</label>
+                    <input type="number" class="form-control" id="workersCount" value="1" min="1" onkeydown="if(event.key === 'Enter') { calculateExecutionTime(); return false; }">
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header">
+                النتائج
+            </div>
+            <div class="card-body" id="executionResults">
+                <!-- Results will be dynamically added here -->
             </div>
         </div>
     </div>
 
+    <!-- Modals -->
     <div class="modal fade" id="materialStorageModal" tabindex="-1">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
@@ -418,5 +524,6 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="script.js"></script>
+    <script src="execution.js"></script>
 </body>
 </html> 
