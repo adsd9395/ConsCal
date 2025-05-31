@@ -422,7 +422,7 @@
 
                 <div class="mb-4">
                     <label class="form-label" id="areaLabel">أدخل المساحة (متر مربع)</label>
-                    <input type="number" class="form-control" id="area" onkeydown="if(event.key === 'Enter') { calculate(); return false; }">
+                    <input type="number" class="form-control" id="area" oninput="calculate()">
                 </div>
             </div>
         </div>
@@ -467,12 +467,12 @@
 
                 <div class="mb-4">
                     <label class="form-label" id="executionAreaLabel">أدخل المساحة (متر مربع)</label>
-                    <input type="number" class="form-control" id="executionArea" onkeydown="if(event.key === 'Enter') { calculateExecutionTime(); return false; }">
+                    <input type="number" class="form-control" id="executionArea" oninput="calculateExecutionTime()">
                 </div>
 
                 <div class="mb-4">
                     <label class="form-label">عدد الفرق</label>
-                    <input type="number" class="form-control" id="workersCount" value="1" min="1" onkeydown="if(event.key === 'Enter') { calculateExecutionTime(); return false; }">
+                    <input type="number" class="form-control" id="workersCount" value="1" min="1" oninput="calculateExecutionTime()">
                 </div>
             </div>
         </div>
