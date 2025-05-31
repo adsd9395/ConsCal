@@ -109,7 +109,8 @@ function updateWorkAreaLabel() {
     const subType = subTypeElement ? subTypeElement.value : null;
     const areaLabel = document.getElementById('executionAreaLabel');
 
-    if (mainWork === 'البورسلين' && subType === 'وزر') {
+    if ((mainWork === 'البورسلين' && subType === 'وزر') || 
+        (mainWork === 'رخام' && subType === 'درج سلم')) {
         areaLabel.textContent = 'أدخل المساحة (متر طولي)';
     } else {
         areaLabel.textContent = 'أدخل المساحة (متر مربع)';

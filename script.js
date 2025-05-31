@@ -1,20 +1,90 @@
-// Constants for material conversions
+/**
+ * Material Conversion Constants
+ * These values are used to convert between different units of measurement
+ */
 const CONVERSIONS = {
-    cement_bag_to_ton: 20,  // 20 bags (50kg each) = 1 ton
-    white_cement_weight: 40,  // kg per bag
-    adhesive_weight: 50,  // kg per bag
-    sand_bags_per_meter: 24,  // 24 bags per cubic meter
-    paint_bucket_volume: 20,  // liters per bucket for sealer
-    paint_finish_bucket: 9,   // liters per bucket for finish paint
-    dyton_bucket: 15,        // kg per bucket for dyton putty
-    acrylic_bucket: 15,      // kg per bucket for acrylic putty
-    plastic_bucket: 9        // liters per bucket for plastic paint
+    // Weight conversions
+    cement_bag_to_ton: 20,      // 20 bags (50kg each) = 1 ton
+    white_cement_weight: 40,    // kg per bag
+    adhesive_weight: 50,        // kg per bag
+    
+    // Volume conversions
+    sand_bags_per_meter: 24,    // 24 bags per cubic meter
+    paint_bucket_volume: 20,    // liters per bucket for sealer
+    paint_finish_bucket: 9,     // liters per bucket for finish paint
+    
+    // Weight per container
+    dyton_bucket: 15,          // kg per bucket for dyton putty
+    acrylic_bucket: 15,        // kg per bucket for acrylic putty
+    plastic_bucket: 9          // liters per bucket for plastic paint
 };
 
-// Main categories list
-const MAIN_CATEGORIES = ['الهدم', 'المباني', 'البياض', 'البورسلين', 'رخام', 'العزل', 'تكييفات', 'جبس', 'النقاشة'];
+/**
+ * Category Definitions
+ * Main categories and their subcategories for construction materials
+ */
+const MAIN_CATEGORIES = [
+    'الهدم',
+    'المباني',
+    'البياض',
+    'البورسلين',
+    'رخام',
+    'العزل',
+    'تكييفات',
+    'جبس',
+    'النقاشة'
+];
 
-// Daily production rates
+// Sub-categories mapped to main categories
+const SUB_CATEGORIES = {
+    'الهدم': [
+        'هدم مباني حوائط',
+        'تكسير سيراميك حوائط',
+        'تكسير سيراميك أرضيات',
+        'تكسير محارة'
+    ],
+    'المباني': [
+        'طوب طفلي 20×9×5',
+        'طوب طفلي 24×11×6',
+        'طوب مصمت دبل 24×11×11',
+        'طوب أحمر 20×10×5'
+    ],
+    'البياض': [
+        'طرطشة',
+        'بؤج',
+        'ملو'
+    ],
+    'البورسلين': [
+        'بورسلين أرضيات 120×60 سم',
+        'بورسلين حوائط 120×60 سم',
+        'تأسيس تحت HDF',
+        'وزر'
+    ],
+    'رخام': [
+        'رخام اسود اسباني (أرضيات)',
+        'رخام كرارة أبيض (أرضيات)',
+        'تجاليد',
+        'درج سلم'
+    ],
+    'جبس': [
+        'أسقف جبس'
+    ],
+    'العزل': [
+        'أنسومات',
+        'سيكا 107',
+        'عزل حراري'
+    ],
+    'النقاشة': [
+        'تأسيس حوائط',
+        'تأسيس أسقف',
+        'تشطيب نقاشة'
+    ]
+};
+
+/**
+ * Production Rates
+ * Daily production rates and required workers for each category and subcategory
+ */
 const PRODUCTION_RATES = {
     'الهدم': {
         'هدم مباني حوائط': {'معدل': 12, 'العمالة': 'عامل هدم'},
@@ -42,7 +112,8 @@ const PRODUCTION_RATES = {
     'رخام': {
         'رخام اسود اسباني (أرضيات)': {'معدل': 15, 'العمالة': 'مبلط رخام + مساعد'},
         'رخام كرارة أبيض (أرضيات)': {'معدل': 12, 'العمالة': 'مبلط رخام + مساعد'},
-        'تجاليد': {'معدل': 5, 'العمالة': 'مبلط رخام + مساعد'}
+        'تجاليد': {'معدل': 5, 'العمالة': 'مبلط رخام + مساعد'},
+        'درج سلم': {'معدل': 12, 'العمالة': 'مبلط رخام + مساعد'}
     },
     'جبس': {
         'أسقف جبس': {'معدل': 18, 'العمالة': 'معلم جبس + مساعد'}
@@ -59,22 +130,14 @@ const PRODUCTION_RATES = {
     }
 };
 
-// Sub-category options for each main category
-const SUB_CATEGORIES = {
-    'الهدم': ['هدم مباني حوائط', 'تكسير سيراميك حوائط', 'تكسير سيراميك أرضيات', 'تكسير محارة'],
-    'المباني': ['طوب طفلي 20×9×5', 'طوب طفلي 24×11×6', 'طوب مصمت دبل 24×11×11', 'طوب أحمر 20×10×5'],
-    'البياض': ['طرطشة', 'بؤج', 'ملو'],
-    'البورسلين': ['بورسلين أرضيات 120×60 سم', 'بورسلين حوائط 120×60 سم', 'تأسيس تحت HDF', 'وزر'],
-    'رخام': ['رخام اسود اسباني (أرضيات)', 'رخام كرارة أبيض (أرضيات)', 'تجاليد'],
-    'جبس': ['أسقف جبس'],
-    'العزل': ['أنسومات', 'سيكا 107', 'عزل حراري'],
-    'النقاشة': ['تأسيس حوائط', 'تأسيس أسقف', 'تشطيب نقاشة']
-};
-
 // Initialize Bootstrap modals
 const materialStorageModal = new bootstrap.Modal(document.getElementById('materialStorageModal'));
 
-// Page navigation functions
+/**
+ * Navigation Functions
+ * Handle page transitions and modal displays
+ */
+
 function showCalculator() {
     document.getElementById('homepage').classList.add('d-none');
     document.getElementById('calculatorPage').classList.remove('d-none');
@@ -98,11 +161,17 @@ function showMaterialStorage() {
     materialStorageModal.show();
 }
 
+/**
+ * UI Update Functions
+ * Handle dynamic updates to form elements and labels
+ */
+
 function updateSubCategory() {
     const mainCategory = document.getElementById('mainCategory').value;
     const container = document.getElementById('subCategoryContainer');
     container.innerHTML = '';
     
+    // Clear input fields and results
     document.getElementById('area').value = '';
     document.getElementById('results').innerHTML = '';
 
@@ -139,30 +208,36 @@ function updateSubCategory() {
     updateAreaLabel();
 }
 
+/**
+ * Helper Functions
+ * Utility functions for labels and text content
+ */
+
+function getSubCategoryLabel(category) {
+    const labels = {
+        'الهدم': 'نوع الهدم:',
+        'رخام': 'نوع الرخام:',
+        'المباني': 'نوع الطوب:',
+        'البورسلين': 'نوع البورسلين:',
+        'العزل': 'نوع العزل:',
+        'النقاشة': 'نوع التأسيس:'
+    };
+    return labels[category] || '';
+}
+
 function updateAreaLabel() {
     const mainCategory = document.getElementById('mainCategory').value;
     const subTypeElement = document.getElementById('subType');
     const subType = subTypeElement ? subTypeElement.value : null;
     const areaLabel = document.getElementById('areaLabel');
 
-    if (mainCategory === 'البورسلين' && subType === 'وزر') {
+    if ((mainCategory === 'البورسلين' && subType === 'وزر') || 
+        (mainCategory === 'رخام' && subType === 'درج سلم')) {
         areaLabel.textContent = 'أدخل المساحة (متر طولي)';
     } else if (mainCategory === 'تكييفات') {
         areaLabel.textContent = 'أدخل عدد التكييفات';
     } else {
         areaLabel.textContent = 'أدخل المساحة (متر مربع)';
-    }
-}
-
-function getSubCategoryLabel(category) {
-    switch(category) {
-        case 'الهدم': return 'نوع الهدم:';
-        case 'رخام': return 'نوع الرخام:';
-        case 'المباني': return 'نوع الطوب:';
-        case 'البورسلين': return 'نوع البورسلين:';
-        case 'العزل': return 'نوع العزل:';
-        case 'النقاشة': return 'نوع التأسيس:';
-        default: return '';
     }
 }
 
@@ -179,14 +254,15 @@ function calculate() {
     const mainCategory = document.getElementById('mainCategory').value;
     const area = parseFloat(document.getElementById('area').value);
     
-    if (isNaN(area)) {
-        resultsDiv.innerHTML = '<div class="result-item">الرجاء إدخال قيمة صحيحة للمساحة</div>';
+    if (isNaN(area) || area <= 0) {
+        resultsDiv.innerHTML = '<div class="result-item error">الرجاء إدخال قيمة صحيحة موجبة للمساحة</div>';
         return;
     }
 
     let results = calculateResults(mainCategory, area);
     resultsDiv.innerHTML = results;
     
+    // Add success animation
     resultsDiv.classList.add('calculation-complete');
     setTimeout(() => {
         resultsDiv.classList.remove('calculation-complete');
@@ -224,9 +300,25 @@ function calculateResults(category, area) {
 
     } else if (category === 'رخام') {
         if (subType === 'رخام (تجاليد)' || subType === 'تجاليد') {
+            const adhesive = area * 0.2;
+            const water_cart = area * 0.04;
+
+            results += `<div class="result-item">مادة لاصقة: ${adhesive.toFixed(2)} شيكارة</div>`;
+            results += `<div class="result-item">عربية رتش: ${water_cart.toFixed(3)}</div>`;
+
+        } else if (subType === 'درج سلم') {
+            const cement = area * 0.264;
+            const cement_tons = cement / CONVERSIONS.cement_bag_to_ton;
+            const sand_mortar = area * 0.048;
+            const sand_mortar_bags = sand_mortar * CONVERSIONS.sand_bags_per_meter;
+            const sand_fill = area * 0.1;
+            const sand_fill_bags = sand_fill * CONVERSIONS.sand_bags_per_meter;
             const adhesive = area * 0.07;
             const water_cart = area * 0.04;
 
+            results += `<div class="result-item">الأسمنت: ${cement.toFixed(2)} شيكارة (${cement_tons.toFixed(2)} طن)</div>`;
+            results += `<div class="result-item">رمل مونة: ${sand_mortar.toFixed(3)} متر مكعب (${Math.round(sand_mortar_bags)} شيكارة)</div>`;
+            results += `<div class="result-item">رمل ردم: ${sand_fill.toFixed(3)} متر مكعب (${Math.round(sand_fill_bags)} شيكارة)</div>`;
             results += `<div class="result-item">مادة لاصقة: ${adhesive.toFixed(2)} شيكارة</div>`;
             results += `<div class="result-item">عربية رتش: ${water_cart.toFixed(3)}</div>`;
 
@@ -462,7 +554,8 @@ function updateExecutionAreaLabel() {
     const subType = subTypeElement ? subTypeElement.value : null;
     const areaLabel = document.getElementById('executionAreaLabel');
 
-    if (mainCategory === 'البورسلين' && subType === 'وزر') {
+    if ((mainCategory === 'البورسلين' && subType === 'وزر') || 
+        (mainCategory === 'رخام' && subType === 'درج سلم')) {
         areaLabel.textContent = 'أدخل المساحة (متر طولي)';
     } else {
         areaLabel.textContent = 'أدخل المساحة (متر مربع)';
@@ -475,8 +568,13 @@ function calculateExecutionTime() {
     const area = parseFloat(document.getElementById('executionArea').value);
     const workersCount = parseInt(document.getElementById('workersCount').value) || 1;
     
-    if (isNaN(area)) {
-        resultsDiv.innerHTML = '<div class="result-item">الرجاء إدخال قيمة صحيحة للمساحة</div>';
+    if (isNaN(area) || area <= 0) {
+        resultsDiv.innerHTML = '<div class="result-item error">الرجاء إدخال قيمة صحيحة موجبة للمساحة</div>';
+        return;
+    }
+
+    if (workersCount <= 0) {
+        resultsDiv.innerHTML = '<div class="result-item error">الرجاء إدخال عدد صحيح موجب للعمال</div>';
         return;
     }
 
@@ -485,34 +583,23 @@ function calculateExecutionTime() {
     let dailyRate = 0;
     let workers = '';
 
-    console.log('Category:', mainCategory); // Debug
-    console.log('SubType:', subType); // Debug
-    console.log('Production Rates:', PRODUCTION_RATES[mainCategory]); // Debug
-
     if (PRODUCTION_RATES[mainCategory]) {
         if (typeof PRODUCTION_RATES[mainCategory] === 'object' && !PRODUCTION_RATES[mainCategory].معدل) {
-            // For categories with sub-types like الهدم
             if (PRODUCTION_RATES[mainCategory][subType]) {
                 dailyRate = PRODUCTION_RATES[mainCategory][subType].معدل;
                 workers = PRODUCTION_RATES[mainCategory][subType].العمالة;
             }
         } else {
-            // For categories with direct rate like المباني
             dailyRate = PRODUCTION_RATES[mainCategory].معدل;
             workers = PRODUCTION_RATES[mainCategory].العمالة;
         }
     }
 
-    console.log('Daily Rate:', dailyRate); // Debug
-    console.log('Workers:', workers); // Debug
-
     if (dailyRate > 0) {
         const days = Math.ceil(area / (dailyRate * workersCount));
-        let results = '';
-        results += `<div class="result-item">المدة المتوقعة: ${days} يوم</div>`;
-        resultsDiv.innerHTML = results;
+        resultsDiv.innerHTML = `<div class="result-item">المدة المتوقعة: ${days} يوم</div>`;
     } else {
-        resultsDiv.innerHTML = '<div class="result-item">لم يتم العثور على معدل الإنتاج لهذا البند</div>';
+        resultsDiv.innerHTML = '<div class="result-item error">لم يتم العثور على معدل الإنتاج لهذا البند</div>';
     }
 
     // Add success animation
